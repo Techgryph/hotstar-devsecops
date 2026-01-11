@@ -8,32 +8,31 @@ pipeline {
 
     stages {
 
-<<<<<<< HEAD
-=======
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/https://github.com/Techgryph/hotstar-devsecops.git'
+                git url: 'https://github.com/Techgryph/hotstar-devsecops.git'
             }
         }
 
->>>>>>> c3bb3ec (Add Docker push stage)
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('sonarqube') {
-            sh """
-            ${tool 'SonarScanner'}/bin/sonar-scanner \
-            -Dsonar.projectKey=hotstar-clone \
-            -Dsonar.sources=src
-            """
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                    -Dsonar.sources=src \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=$SONAR_AUTH_TOKEN
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Build Docker Image') {
             steps {
