@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git url: 'https://github.com/DevOpsInstituteMumbai-wq/Implementing-a-Secure-CI-CD-Pipeline-for-Hotstar-Clone-Using-DevSecOps-Principles.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
