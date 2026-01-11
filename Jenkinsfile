@@ -14,19 +14,17 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh '''
-                    sonar-scanner \
-                    -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-                    -Dsonar.sources=src \
-                    -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=$SONAR_AUTH_TOKEN
-                    '''
-                }
-            }
+stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('sonarqube') {
+            sh """
+            ${tool 'SonarScanner'}/bin/sonar-scanner \
+            -Dsonar.projectKey=hotstar-clone \
+            -Dsonar.sources=src
+            """
         }
+    }
+}
 
         stage('Build Docker Image') {
             steps {
