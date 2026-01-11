@@ -49,16 +49,19 @@ pipeline {
             }
         }
 
-        stage('Push Image to DockerHub') {
-            steps {
-                withDockerRegistry([credentialsId: 'dockerhub-creds']) {
-                    sh '''
-                    docker push $IMAGE_NAME:$BUILD_NUMBER
-                    docker push $IMAGE_NAME:latest
-                    '''
-                }
+        stage('Push Docker Image') {
+    steps {
+        script {
+            withDockerRegistry(
+                [ url: 'https://index.docker.io/v1/', credentialsId: 'dockerhub-creds' ]
+            ) {
+                sh """
+                  docker tag ${IMAGE_NAME}:ci ${IMAGE_NAME}:latest
+                  docker push ${IMAGE_NAME}:latest
+                """
             }
         }
     }
 }
+
 
