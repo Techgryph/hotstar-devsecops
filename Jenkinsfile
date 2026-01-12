@@ -58,14 +58,18 @@ pipeline {
             }
         }
 
-        stage('Deploy to EKS') {
-            steps {
-                sh '''
-                sed -i "s|IMAGE_PLACEHOLDER|techgryphdocker/hotstar-clone:${BUILD_NUMBER}|g" k8s/deployment.yaml
-                kubectl apply -f k8s/
-                kubectl rollout status deployment/hotstar-deployment
-                '''
+        stage('Push Docker Image') {
+    steps {
+        script {
+            withDockerRegistry(
+                [ url: 'https://index.docker.io/v1/', credentialsId: 'dockerhub-creds' ]
+            ) {
+                sh """
+                docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest
+                docker push ${IMAGE_NAME}:latest
+                """
             }
         }
     }
-} 
+}
