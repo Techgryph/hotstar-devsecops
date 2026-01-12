@@ -61,7 +61,7 @@ pipeline {
         stage('Deploy to EKS') {
             steps {
                 sh '''
-                sed -i 's|IMAGE_PLACEHOLDER|techgryphdocker/hotstar-clone:${BUILD_NUMBER}|g' k8s/deployment.yaml
+                sed -i "s|IMAGE_PLACEHOLDER|techgryphdocker/hotstar-clone:${BUILD_NUMBER}|g" k8s/deployment.yaml
                 kubectl apply -f k8s/
                 kubectl rollout status deployment/hotstar-deployment
                 '''
