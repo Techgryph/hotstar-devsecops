@@ -63,5 +63,6 @@ pipeline {
                 }
             }
         }
-    } // End of stages
-} // End of pipeline
+
+    }   // ✅ closes stages
+}       // ✅ closes pipeline
