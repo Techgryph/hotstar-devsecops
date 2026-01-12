@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: hotstar
-        image: techgryphdocker/hotstar-clone:${BUILD_NUMBER}
+        image: IMAGE_PLACEHOLDER
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 
