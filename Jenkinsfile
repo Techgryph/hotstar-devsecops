@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git url: 'https://github.com/Techgryph/hotstar-devsecops.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
